@@ -1,6 +1,18 @@
 const express = require('express');
+const dotenv = require('dotenv');
+const productRoutes = require('./routes/productRoutes');
+
+dotenv.config();
+
 const app = express();
 
+//JSON Middleware
+app.use(express.json());
+
+//Products route
+app.use('/products', productRoutes)
+
+//Main route
 app.get('/', (req, res) => {
     res.send('API running');
 });
