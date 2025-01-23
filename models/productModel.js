@@ -14,3 +14,9 @@ const getProductsByCategory = async (categoryId) => {
     const result = await pool.query('SELECT * from products WHERE categoryId = $1', [categoryId]);
     return result.rows;
 };
+
+module.exports = {
+    getAllProducts,
+    getProductById,
+    getProductsByCategory,
+  };
