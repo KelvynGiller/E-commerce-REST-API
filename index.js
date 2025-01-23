@@ -1,6 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const productRoutes = require('./routes/productRoutes');
+const userRoutes = require('./routes/userRoutes');
+
 
 dotenv.config();
 
@@ -9,8 +11,9 @@ const app = express();
 //JSON Middleware
 app.use(express.json());
 
-//Products route
-app.use('/products', productRoutes)
+//Routes
+app.use('/products', productRoutes);
+app.use('/users', userRoutes);
 
 //Main route
 app.get('/', (req, res) => {
