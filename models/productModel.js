@@ -6,7 +6,11 @@ const getAllProducts = async () => {
 };
 
 const getProductById = async (id) => {
-    const result = await pool.query('SELECT * from products WHERE id=$1')
+    const result = await pool.query('SELECT * from products WHERE id = $1', [id]);
     return result.rows[0];
 };
 
+const getProductsByCategory = async (categoryId) => {
+    const result = await pool.query('SELECT * from products WHERE categoryId = $1', [categoryId]);
+    return result.rows;
+};
