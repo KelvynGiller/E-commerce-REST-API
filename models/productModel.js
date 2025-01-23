@@ -5,3 +5,8 @@ const getAllProducts = async () => {
     return result.rows;
 };
 
+const getProductById = async (id) => {
+    const result = await pool.query('SELECT * from products WHERE id=$1')
+    return result.rows[0];
+};
+
