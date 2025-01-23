@@ -21,3 +21,21 @@ const getProductById = async (req, res) => {
     }
 };
 
+const getProductsByCategory = async (req, res) => {
+    try {
+        const { category } = req.query;
+        if (!category) {
+            return res.status(400).json({message: 'Category not specified'});
+        }
+        const products = await Product.getProductsByCategory(category);
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: 'Product search error', error });
+      }
+};
+
+module.exports = {
+    getAllProducts,
+    getProductById,
+    getProductsByCategory,
+  };
