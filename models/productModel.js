@@ -10,8 +10,8 @@ const getProductById = async (id) => {
     return result.rows[0];
 };
 
-const getProductsByCategory = async (categoryId) => {
-    const result = await pool.query('SELECT * from products WHERE categoryId = $1', [categoryId]);
+const getProductsByCategory = async (category) => {
+    const result = await pool.query('SELECT * from products WHERE category = $1', [category]);
     return result.rows;
 };
 

@@ -15,7 +15,7 @@ const getProductById = async (req, res) => {
         if (!product) {
             return res.status(404).json({ message: 'Product not find' });
         }
-        res.status(200).json(products)
+        res.status(200).json(product)
     } catch (error) {
         res.status(500).json({message: 'Product search error', error})
     }
@@ -23,7 +23,7 @@ const getProductById = async (req, res) => {
 
 const getProductsByCategory = async (req, res) => {
     try {
-        const { category } = req.query;
+        const { category } = req.params;
         if (!category) {
             return res.status(400).json({message: 'Category not specified'});
         }
