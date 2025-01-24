@@ -26,6 +26,8 @@ const registerUser = async (req, res) => {
         res.status(500).json({ message: 'Registration failed', error });
     };
 };
+
+//GET all users
 const getAllUsers = async (req, res) => {
     try {
         const result = await pool.query('SELECT id, username, email, created_at FROM users');
@@ -35,6 +37,7 @@ const getAllUsers = async (req, res) => {
     }
 };
 
+//GET user by id
 const getUserById = async (req, res) => {
     const { userId } = req.params;
 
@@ -51,6 +54,7 @@ const getUserById = async (req, res) => {
     }
 };
 
+//UPDATE users
 const updateUser = async (req, res) => {
     const { userId } = req.params;
     const { username, email } = req.body;
@@ -71,14 +75,27 @@ const updateUser = async (req, res) => {
     }
 };
 
+//DELETE users
+const deleteUser = async (req, res) => {
+    const { userId } = req.params;
 
+    try {
+        const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING id', [userId]);
 
+        if (result.rowCount === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting user', error });
+    }
+};
 
 module.exports = {
     registerUser,
     getAllUsers,
     getUserById,
     updateUser,
-    
-
+    deleteUser
 };
