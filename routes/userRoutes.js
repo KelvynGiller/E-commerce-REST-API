@@ -6,12 +6,12 @@ const passport = require('passport');
 
 router.post('/register', userController.registerUser);
 
-router.get('/', passport.authenticate('jwt', { session: false }), userController.getAllUsers);
+router.get('/', userController.getAllUsers);
 
-router.get('/:userId', passport.authenticate('jwt', { session: false }), userController.getUserById);
+router.get('/:userId', userController.getUserById);
 
-router.put('/:userId', passport.authenticate('jwt', { session: false }), userController.updateUser);
+router.put('/:userId', userController.updateUser);
 
-router.delete('/:userId', passport.authenticate('jwt', { session: false }), userController.deleteUser);
+router.delete('/:userId', userController.deleteUser);
 
 module.exports = router;
