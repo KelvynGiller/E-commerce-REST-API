@@ -1,6 +1,7 @@
 const pool = require('../config/db');
 
 const Order = {
+  
   createOrder: async (cart_id, user_id, total_price) => {
     const result = await pool.query(
       'INSERT INTO orders (cart_id, user_id, total_price, status) VALUES ($1, $2, $3, $4) RETURNING *',
@@ -8,6 +9,7 @@ const Order = {
     );
     return result.rows[0];
   },
+
 
   getById: async (order_id) => {
     const result = await pool.query(
@@ -32,6 +34,14 @@ const Order = {
     );
     return result.rows;
   },
+
+  deleteOrder: async (order_id) => {
+    const result = await pool.query(
+      'DELETE FROM orders WHERE id = $1 RETURNING *',
+      [order_id]
+    );
+    return result.rows[0];
+  }
 };
 
 module.exports = Order;
