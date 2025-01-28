@@ -5,6 +5,7 @@ const session = require('express-session');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 
 dotenv.config();
 
@@ -29,7 +30,8 @@ app.use(passport.session());
 //Routes
 app.use('/products', productRoutes);
 app.use('/users', userRoutes);
-app.use('/', authRoutes);
+app.use('/', authRoutes)
+app.use('/cart', cartRoutes);
 
 //Main route
 app.get('/', (req, res) => {

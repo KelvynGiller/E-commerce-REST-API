@@ -1,69 +1,68 @@
 const Cart = require('../models/cartModel');
 
 const createCart = async (req, res) => {
-    const { userId } = req.body;
+    const { user_id } = req.body;
 
     try {
-        const cart = await Cart.create(userId);
+        const carts = await Cart.createCart(user_id);
         res.status(201).json({
             message: 'Cart created successfully',
-            cart: cart,
+            carts: carts,
         });
     } catch (error) {
-        res.status(500).json({ message: 'Error creating cart', error });
+        res.status(500).json({ message: 'Error creating cart', error: error.message });
     }
 };
-
-const addProductToCart = async (req,res) => {
-    const { cartId } = req.params;
-    const { productId, quantity } = req.body;
+const addProductToCart = async (req, res) => {
+    const { cart_id } = req.params;
+    const { product_id, quantity } = req.body;
 
     try {
-        const cart = await Cart.findById(cartId);
+        const cart = await Cart.findById(cart_id);
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
 
-        const price = await getProductPrice(productId);
+        const price = await Cart.getProductPrice(product_id);
 
-        const newProduct = await Cart.addProduct(cartId, productId, quantity, price);
+        const newProduct = await Cart.addProduct(cart_id, product_id, quantity, price);
 
         res.status(201).json({
             message: 'Product added to cart',
             product: newProduct,
         });
     } catch (error) {
-        res.status(500).json({ message: 'Error adding product to cart', error });
+        res.status(500).json({ message: 'Error adding product to cart', error: error.message });
     }
 };
 
 const getCartItems = async (req, res) => {
-    const { cartId } = req.params;
+    const { cart_id } = req.params;
 
     try {
-        const cart = await Cart.findById(cartId);
+        const cart = await Cart.findById(cart_id);
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
 
-        const items = await Cart.getItems(cartId);
+        const items = await Cart.getItems(cart_id);
         res.json({ items });
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching cart items', error });
+        res.status(500).json({ message: 'Error fetching cart items', error: error.message });
     }
 };
 
 const updateProductQuantity = async (req, res) => {
-    const { cartId } = req.params;
-    const { productId, quantity } = req.body;
+    const { cart_id } = req.params;
+    const { product_id, quantity } = req.body;
 
     try {
-        const cart = await Cart.findById(cartId);
+        const cart = await Cart.findById(cart_id);
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
 
-        const updatedProduct = await Cart.updateProductQuantity(cartId, productId, quantity);
+        const updatedProduct = await Cart.updateProductQuantity(cart_id, product_id, quantity);
         res.json({
             message: 'Product quantity updated',
             product: updatedProduct,
@@ -74,16 +73,16 @@ const updateProductQuantity = async (req, res) => {
 };
 
 const removeProductFromCart = async (req, res) => {
-    const { cartId } = req.params;
-    const { productId } = req.body;
+    const { cart_id } = req.params;
+    const { product_id } = req.body;
 
     try {
-        const cart = await Cart.findById(cartId);
+        const cart = await Cart.findById(cart_id);
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
 
-        const removedProduct = await Cart.removeProduct(cartId, productId);
+        const removedProduct = await Cart.removeProduct(cart_id, product_id);
         res.json({
             message: 'Product removed from cart',
             product: removedProduct,
