@@ -7,6 +7,7 @@ const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const swaggerDocs = require('./config/swaggerConfig');
 
 dotenv.config();
 
@@ -34,6 +35,9 @@ app.use('/users', userRoutes);
 app.use('/', authRoutes)
 app.use('/cart', cartRoutes);
 app.use('/orders', orderRoutes);
+
+//Swagger
+swaggerDocs(app);
 
 //Main route
 app.get('/', (req, res) => {
